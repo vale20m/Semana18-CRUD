@@ -1,4 +1,8 @@
+// Guardamos el JSON en una constante
+
 const URL = 'https://6542bfaf01b5e279de1f84e6.mockapi.io/users'
+
+// Función que devuelve todos los usuarios del JSON
 
 async function getData(url){
     try {
@@ -12,6 +16,8 @@ async function getData(url){
     }
 }
 
+// Función que devuelve el usuario que tiene el ID especificado
+
 async function getDataByID(url, number){
     try {
 
@@ -24,6 +30,8 @@ async function getDataByID(url, number){
         console.log(error.message);
     }
 }
+
+// Función que permite agregar un nuevo usuario al final del JSON
 
 async function postData(url, nombre, apellido){
     try {
@@ -44,6 +52,8 @@ async function postData(url, nombre, apellido){
     }
 }
 
+// Función que realiza un fetch para modificar un usuario especificado por su ID del JSON
+
 async function putDataByID(url, number, nombre, apellido){
     try {
         
@@ -62,6 +72,8 @@ async function putDataByID(url, number, nombre, apellido){
         console.log(error.message);
     }
 }
+
+// Función que permite eliminar un usuario especificado por su ID del JSON
 
 async function deleteDataByID(url, number){
     try {
@@ -100,6 +112,11 @@ const buttonDELETE = document.querySelector("#btnDelete");
 // Variable en la que guardamos los resultados
 
 const results = document.querySelector("#results");
+
+/*
+Funciones que chequean que los campos relacionados con los botones no estén vacios, y en
+caso de que lo estén, deshabilita dichos botones (habilitandolos en caso contrario).
+*/
 
 function checkPOST(){
     if (!inputName.value || !inputLastName.value){
@@ -140,7 +157,7 @@ checkPUT();
 checkSendPUT();
 checkDELETE();
 
-// Funcion que agrega los usuarios al HTML
+// Funcion que agrega los usuarios al HTML (para mostrarlos)
 
 function showData(array){
     if (array.length != undefined){
@@ -189,7 +206,10 @@ buttonGET.addEventListener("click", async function(){
 
 });
 
-// Funciones que habilitan o deshabilitan los botones relacionados según si sus inputs tienen contenido o no
+/*
+addEventListeners que se activan al modificar los valores que contienen los inputs, y que
+habilitan o deshabilitan los botones relacionados según si sus inputs tienen contenido o no
+*/
 
 inputName.addEventListener("input", () => checkPOST());
 
@@ -229,6 +249,11 @@ buttonDELETE.addEventListener("click", async function(){
 
 });
 
+/*
+Agregamos un addEventListener que permite agregar un nuevo usuario con el nombre y apellido que
+el cliente ingresa en los inputs correspondientes (no pueden estar vacíos).
+*/
+
 buttonPOST.addEventListener("click", async function(){
 
     results.innerHTML = "";
@@ -237,6 +262,11 @@ buttonPOST.addEventListener("click", async function(){
     showData(users);
 
 });
+
+/*
+Agregamos un addEventListener al botonPUT que busca el usuario con el ID que el usuario pretende modificar, y una vez lo
+encuentra, guarda su nombre y apellido en los inputs de nombre y apellido (del modal).
+*/
 
 buttonPUT.addEventListener("click", async function(){
 
@@ -252,7 +282,10 @@ buttonPUT.addEventListener("click", async function(){
     checkSendPUT();
 
 });
-
+/*
+Agregamos un addEventListener al boton de guardar (del modal) que toma los datos que el usuario ingreso en los
+inputs de nombre y apellido (del modal) y actualiza el usuario seleccionado con dichos inputs
+*/
 buttonSendPUT.addEventListener("click", async function(){
 
     results.innerHTML = "";
