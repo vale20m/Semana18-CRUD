@@ -134,8 +134,16 @@ function checkPUT(){
     }
 }
 
+/*
+Booleano que permite que el boton sea deshabilitado si el usuario
+que se quiere modificar no existe
+*/
+
+let validUser = true;
+
 function checkSendPUT(){
-    if (!inputPUTName.value || !inputPUTLastName.value){
+    console.log(validUser);
+    if (!inputPUTName.value || !inputPUTLastName.value || !validUser){
         buttonSendPUT.disabled = true;
     } else {
         buttonSendPUT.disabled = false;
@@ -162,7 +170,11 @@ checkDELETE();
 function showData(array){
     if (array.length != undefined){
         if (array[0].id == undefined){
-            alert("El usuario que está intentando buscar no existe");
+            const message = document.getElementById("alert-error");
+            message.classList.add("show");
+            setTimeout(() => {
+                message.classList.remove("show");
+            }, "3000");
             return;
         }
         for (i = 0; i < array.length; i++) {
@@ -233,7 +245,11 @@ buttonDELETE.addEventListener("click", async function(){
     results.innerHTML = "";
     const deleted = await deleteDataByID(URL, inputDELETE.value);
     if (deleted.id == undefined){
-        alert("El usuario que está intentando eliminar no existe");
+        const message = document.getElementById("alert-error");
+        message.classList.add("show");
+        setTimeout(() => {
+            message.classList.remove("show");
+        }, "3000");
         return;
     }
     const users = await getData(URL);
@@ -272,11 +288,18 @@ buttonPUT.addEventListener("click", async function(){
 
     const user = await getDataByID(URL, inputPUTId.value);
     if (user.id != undefined){
+        validUser = true;
         inputPUTName.value = user.name;
         inputPUTLastName.value = user.lastname;
     } else {
-        closeModal();
-        alert("El usuario que está intentando modificar no existe");
+        validUser = false;
+        checkSendPUT();
+        const message = document.getElementById("alert-error");
+        message.classList.add("show");
+        setTimeout(() => {
+            message.classList.remove("show");
+        }, "3000");
+        checkSendPUT();
         return;
     }
     checkSendPUT();
